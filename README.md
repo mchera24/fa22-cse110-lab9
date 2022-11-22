@@ -1,6 +1,6 @@
 # Lab 9 - JavaScript Error Handling, Monitoring, & JS Docs
 
-**Done By:** Mandeep Chera\
+**Done By:** Mandeep Chera
 
 **Website:** https://mchera24.github.io/fa22-cse110-lab9/
 
