@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "e2a1436a19c44a999917dec0afb1186b"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,18 +95,135 @@
   </main>
 
   <script>
+    class customError extends Error
+    {
+      constructor(errorMessage)
+      {
+        super(errorMessage);
+        this.name = "CustomError"
+      }
+    }
     let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async(e) => {
       e.preventDefault();
       let output = document.querySelector('output');
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      //need to comment out this try catch block to see the custom
+      //error work
+      
+      /*try
+      {
+        if(operator == "+")
+        {
+          let sum = Sum(firstNum, secondNum);
+        }
+      }
+      catch (error)
+      {
+        if(window.onerror)
+        {
+          console.log("Sadly an error happened my friend");
+        }
+        throw error
+      }*/
+      try {
+        let btn = document.getElementById('button');
+        if(btn == null)
+        {
+          if(window.onerror)
+          {
+            console.log("Sadly an error happened my friend");
+          }
+          throw new customError("Element does not exist!");
+        }
+      } catch (error) {
+        throw error
+        if(window.onerror)
+        {
+          console.log("Sadly an error happened my friend");
+        }
+      }
+      finally {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
+    for(let count = 0; count < errorBtns.length; count++)
+    {
+      errorBtns[count].addEventListener('click', () => {
+        if(errorBtns[count].innerHTML == "Console Log")
+        {
+          console.log("Console Log Demo");
+        }
+        else if(errorBtns[count].innerHTML == "Console Error")
+        {
+          console.error("Console Error Demo");
+        }
+        else if(errorBtns[count].innerHTML == "Console Count")
+        {
+          console.count("Count Button");
+        }
+        else if(errorBtns[count].innerHTML == "Console Warn")
+        {
+          console.warn("Console Warn Button");
+        }
+        else if(errorBtns[count].innerHTML == "Console Assert")
+        {
+          let number = 2;
+          let errorMessage = "The number does not equal 3"
+          console.assert(number + 1 === 2, '%o', {number, errorMessage});
+        }
+        else if(errorBtns[count].innerHTML == "Console Clear")
+        {
+          console.clear();
+        }
+        else if(errorBtns[count].innerHTML == "Console Dir")
+        {
+          console.dir(errorBtns[count]);
+        }
+        else if(errorBtns[count].innerHTML == "Console dirxml")
+        {
+          console.dirxml(errorBtns[count]);
+        }
+        else if(errorBtns[count].innerHTML == "Console Group Start")
+        {
+          console.group();
+        }
+        else if(errorBtns[count].innerHTML == "Console Group End")
+        {
+          console.groupEnd();
+        }
+        else if(errorBtns[count].innerHTML == "Console Table")
+        {
+          console.table([{name: 'Software Engineering', num: 110}, {name: 'Programming Language', num: 130}, {name: 'Advanced Software', num: 112}]);
+        }
+        else if(errorBtns[count].innerHTML == "Start Timer")
+        {
+          console.time("Timer Button");
+        }
+        else if(errorBtns[count].innerHTML == "End Timer")
+        {
+          console.timeEnd("Timer Button");
+        }
+        else if(errorBtns[count].innerHTML == "Console Trace")
+        {
+          console.trace();
+        }
+        else if(errorBtns[count].innerHTML == "Trigger a Global Error")
+        {
+          console.log("Sadly an error happened my friend");
+          try {
+            random;
+          } catch (error) {
+            throw error;
+          }
+        }
+      })
+    }
+    TrackJS.track('Testing TrackJS!');
     // Start your code here
     // You may move this JS to another file if you wish
   </script>
